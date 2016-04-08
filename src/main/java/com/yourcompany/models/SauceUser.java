@@ -1,5 +1,12 @@
 package com.yourcompany.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.omg.CORBA.Object;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,183 +14,310 @@ import java.util.Date;
 /**
  * Created by mehmetgerceker on 4/7/16.
  */
-public class SauceUser {
-
-}
-public class User implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class SauceUser implements Serializable {
     @JsonProperty("domain")
     private String domain;
 
-    public String getDomain() { return this.domain; }
-
-    public void setDomain(String domain) { this.domain = domain; }
-
     @JsonProperty("last_name")
-    private String last_name;
-
-    public String getLastName() { return this.last_name; }
-
-    public void setLastName(String last_name) { this.last_name = last_name; }
+    private String lastName;
 
     @JsonProperty("creation_time")
-    @JsonDeserialize(using=UnixtimeDeserializer.class)
-    private Date creation_time;
-
-    public Date getCreationTime() { return this.creation_time; }
-
-    public void setCreationTime(Date creation_time) { this.creation_time = creation_time; }
+    private Date creationTime;
 
     @JsonProperty("user_type")
-    private String user_type; // FIXME - enum
+    private String userType;
 
-    public String getUserType() { return this.user_type; }
-
-    public void setUserType(String user_type) { this.user_type = user_type; }
+    @JsonProperty("children_count")
+    private String childrenCount;
 
     @JsonProperty("concurrency_limit")
-    private ConcurrencyLimit concurrency_limit;
-
-    public ConcurrencyLimit getConcurrencyLimit() { return this.concurrency_limit; }
-
-    public void setConcurrencyLimit(ConcurrencyLimit concurrency_limit) { this.concurrency_limit = concurrency_limit; }
+    private ConcurrencyLimit concurrencyLimit;
 
     @JsonProperty("manual_minutes")
-    private int manual_minutes;
-
-    public int getManualMinutes() { return this.manual_minutes; }
-
-    public void setManualMinutes(int manual_minutes) { this.manual_minutes = manual_minutes; }
+    private String manualMinutes;
 
     @JsonProperty("can_run_manual")
-    private boolean can_run_manual;
-
-    public boolean getCanRunManual() { return this.can_run_manual; }
-
-    public void setCanRunManual(boolean can_run_manual) { this.can_run_manual = can_run_manual; }
+    private boolean canRunManual;
 
     @JsonProperty("prevent_emails")
-    private ArrayList<String> prevent_emails; // This is a list of keys that are prevented. Enum? FIXME
-
-    public ArrayList<String> getPreventEmails() { return this.prevent_emails; }
-
-    public void setPreventEmails(ArrayList<String> prevent_emails) { this.prevent_emails = prevent_emails; }
+    private ArrayList<String> preventEmails;
 
     @JsonProperty("id")
     private String id;
 
-    public String getId() { return this.id; }
-
-    public void setId(String id) { this.id = id; }
+    @JsonProperty("ancestor")
+    private String ancestor;
 
     @JsonProperty("first_name")
-    private String first_name;
-
-    public String getFirstName() { return this.first_name; }
-
-    public void setFirstName(String first_name) { this.first_name = first_name; }
+    private String firstName;
 
     @JsonProperty("verified")
     private boolean verified;
 
-    public boolean getVerified() { return this.verified; }
-
-    public void setVerified(boolean verified) { this.verified = verified; }
-
     @JsonProperty("subscribed")
     private boolean subscribed;
-
-    public boolean getSubscribed() { return this.subscribed; }
-
-    public void setSubscribed(boolean subscribed) { this.subscribed = subscribed; }
 
     @JsonProperty("title")
     private String title;
 
-    public String getTitle() { return this.title; }
-
-    public void setTitle(String title) { this.title = title; }
-
     @JsonProperty("ancestor_allows_subaccounts")
-    private boolean ancestor_allows_subaccounts;
-
-    public boolean getAncestorAllowsSubaccounts() { return this.ancestor_allows_subaccounts; }
-
-    public void setAncestorAllowsSubaccounts(boolean ancestor_allows_subaccounts) { this.ancestor_allows_subaccounts = ancestor_allows_subaccounts; }
+    private boolean ancestorAllowsSubaccounts;
 
     @JsonProperty("email")
     private String email;
 
-    public String getEmail() { return this.email; }
-
-    public void setEmail(String email) { this.email = email; }
-
     @JsonProperty("username")
     private String username;
 
-    public String getUsername() { return this.username; }
-
-    public void setUsername(String username) { this.username = username; }
-
     @JsonProperty("vm_lockdown")
-    private boolean vm_lockdown;
-
-    public boolean getVmLockdown() { return this.vm_lockdown; }
-
-    public void setVmLockdown(boolean vm_lockdown) { this.vm_lockdown = vm_lockdown; }
+    private boolean vmLockdown;
 
     @JsonProperty("parent")
     private String parent;
 
-    public String getParent() { return this.parent; }
-
-    public void setParent(String parent) { this.parent = parent; }
-
     @JsonProperty("is_admin")
-    private String is_admin; // FIXME - pretty sure this should be a boolean
+    private boolean isAdmin;
 
-    public String getIsAdmin() { return this.is_admin; }
-
-    public void setIsAdmin(String is_admin) { this.is_admin = is_admin; }
+    @JsonProperty("is_public")
+    private boolean isPublic;
 
     @JsonProperty("access_key")
-    private String access_key;
-
-    public String getAccessKey() { return this.access_key; }
-
-    public void setAccessKey(String access_key) { this.access_key = access_key; }
+    private String accessKey;
 
     @JsonProperty("name")
     private String name;
 
-    public String getName() { return this.name; }
-
-    public void setName(String name) { this.name = name; }
-
     @JsonProperty("is_sso")
-    private boolean is_sso;
-
-    public boolean getIsSso() { return this.is_sso; }
-
-    public void setIsSso(boolean is_sso) { this.is_sso = is_sso; }
+    private boolean isSso;
 
     @JsonProperty("entity_type")
-    private String entity_type;
-
-    public String getEntityType() { return this.entity_type; }
-
-    public void setEntityType(String entity_type) { this.entity_type = entity_type; }
+    private String entityType;
 
     @JsonProperty("ancestor_concurrency_limit")
-    private ConcurrencyLimit ancestor_concurrency_limit;
-
-    public ConcurrencyLimit getAncestorConcurrencyLimit() { return this.ancestor_concurrency_limit; }
-
-    public void setAncestorConcurrencyLimit(ConcurrencyLimit ancestor_concurrency_limit) { this.ancestor_concurrency_limit = ancestor_concurrency_limit; }
+    private ConcurrencyLimit ancestorConcurrencyLimit;
 
     @JsonProperty("minutes")
-    private int minutes;
+    private String minutes;
 
-    public int getMinutes() { return this.minutes; }
+    public String getDomain() {
+        return domain;
+    }
 
-    public void setMinutes(int minutes) { this.minutes = minutes; }
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public ConcurrencyLimit getConcurrencyLimit() {
+        return concurrencyLimit;
+    }
+
+    public void setConcurrencyLimit(ConcurrencyLimit concurrencyLimit) {
+        this.concurrencyLimit = concurrencyLimit;
+    }
+
+    public String getManualMinutes() {
+        return manualMinutes;
+    }
+
+    public void setManualMinutes(String manualMinutes) {
+        this.manualMinutes = manualMinutes;
+    }
+
+    public boolean isCanRunManual() {
+        return canRunManual;
+    }
+
+    public void setCanRunManual(boolean canRunManual) {
+        this.canRunManual = canRunManual;
+    }
+
+    public ArrayList<String> getPreventEmails() {
+        return preventEmails;
+    }
+
+    public void setPreventEmails(ArrayList<String> preventEmails) {
+        this.preventEmails = preventEmails;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getAncestor() {
+        return ancestor;
+    }
+
+    public void setAncestor(String ancestor) {
+        this.ancestor = ancestor;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    public boolean isSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        this.subscribed = subscribed;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isAncestorAllowsSubaccounts() {
+        return ancestorAllowsSubaccounts;
+    }
+
+    public void setAncestorAllowsSubaccounts(boolean ancestorAllowsSubaccounts) {
+        this.ancestorAllowsSubaccounts = ancestorAllowsSubaccounts;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isVmLockdown() {
+        return vmLockdown;
+    }
+
+    public void setVmLockdown(boolean vmLockdown) {
+        this.vmLockdown = vmLockdown;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isSso() {
+        return isSso;
+    }
+
+    public void setSso(boolean sso) {
+        isSso = sso;
+    }
+
+    public String getEntityType() {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
+    }
+
+    public ConcurrencyLimit getAncestorConcurrencyLimit() {
+        return ancestorConcurrencyLimit;
+    }
+
+    public void setAncestorConcurrencyLimit(ConcurrencyLimit ancestorConcurrencyLimit) {
+        this.ancestorConcurrencyLimit = ancestorConcurrencyLimit;
+    }
+
+    public String getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(String minutes) {
+        this.minutes = minutes;
+    }
+
+    public String toJSON() throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
+    }
 }

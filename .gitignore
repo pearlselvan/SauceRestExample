@@ -1,3 +1,5 @@
 .idea/
 SauceRestExample.iml
 target/
+*.log
+sauce-rest-example.iml

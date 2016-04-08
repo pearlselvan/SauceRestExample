@@ -1,11 +1,13 @@
 package com.yourcompany.service;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -13,30 +15,16 @@ import java.util.Base64;
 /**
  * Created by mehmetgerceker on 4/7/16.
  */
-/*
-public class ServiceGenerator {
-    public static String generateBasicAuthHeader(String username, String password){
-        if (username != null  && password != null) {
-            String credentials = username + ":" + password;
-            return "Basic " +
-                    Base64.getEncoder().encodeToString(credentials.getBytes());
-        } else {
-            System.out.println("No username and password provided returning blank!");
-            return "";
-        }
-    }
-}
-*/
 public class SauceLabsServiceGenerator {
 
-    public static final String API_BASE_URL = "https://saucelabs.com/rest/v1/";
+    private static final String API_BASE_URL = "https://saucelabs.com/rest/v1/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
+                    .addConverterFactory(JacksonConverterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
         return createService(serviceClass, null, null);
