@@ -1,16 +1,16 @@
 package com.yourcompany.service;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
+import okhttp3.internal.Util;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by mehmetgerceker on 4/7/16.
@@ -19,24 +19,25 @@ public class SauceLabsServiceGenerator {
 
     private static final String API_BASE_URL = "https://saucelabs.com/rest/v1/";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-    private static Retrofit.Builder builder =
-            new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(JacksonConverterFactory.create());
-
     public static <S> S createService(Class<S> serviceClass) {
         return createService(serviceClass, null, null);
     }
 
+    private static OkHttpClient httpClient;
+
     public static <S> S createService(Class<S> serviceClass, String username, String password) {
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        Retrofit.Builder builder =
+                new Retrofit.Builder()
+                        .baseUrl(API_BASE_URL)
+                        .addConverterFactory(JacksonConverterFactory.create());
+
         if (username != null && password != null) {
             String credentials = username + ":" + password;
             final String basic =
                     "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
 
-            httpClient.addInterceptor(new Interceptor() {
+            httpClientBuilder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
                     Request original = chain.request();
@@ -52,8 +53,12 @@ public class SauceLabsServiceGenerator {
             });
         }
 
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = builder.client(client).build();
+        ThreadPoolExecutor singleThreadPoolExecutor =  new ThreadPoolExecutor(0, 1, 0, TimeUnit.SECONDS,
+                new SynchronousQueue<Runnable>(), Util.threadFactory("Custom OkHttp Dispatcher -- mehmetg", false));
+        Dispatcher singleThreadDispatcher = new Dispatcher(singleThreadPoolExecutor);
+
+        httpClient = httpClientBuilder.dispatcher(singleThreadDispatcher).build();
+        Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
 }

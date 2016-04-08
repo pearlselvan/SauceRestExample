@@ -18,11 +18,12 @@ import java.util.List;
 public class SauceRestExample {
 
     public static void main(String[] args) throws InterruptedException {
-
-        SauceLabsService service = SauceLabsServiceGenerator.createService(SauceLabsService.class,
-                System.getenv("SAUCE_USERNAME"),
-                System.getenv("SAUCE_ACCESS_KEY"));
         String username = System.getenv("SAUCE_USERNAME");
+        String accessKey = System.getenv("SAUCE_ACCESS_KEY");
+
+        SauceLabsService service =
+                SauceLabsServiceGenerator.createService(SauceLabsService.class, username, accessKey);
+
         System.out.println("Flat Sub-Account List");
         System.out.println("============================");
         printSubAccounts(service, username);
@@ -63,7 +64,7 @@ public class SauceRestExample {
         for(SauceUser user:subUsers){
             String childPad = levelPad+"\t";
             System.out.format("%s-Username: %s, Email: %s\n", childPad, user.getUsername(), user.getEmail());
-            printUserTree(service,user.getUsername(),childPad);
+            printUserTree(service, user.getUsername(), childPad);
         }
     }
 

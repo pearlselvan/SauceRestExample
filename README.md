@@ -5,10 +5,13 @@ Prints out:
 * A flat sub-account list, all under the user.
 * A hierarchical sub-account list, all under the user indented by level.
 
-##Setup:
+## Setup:
 ```export SAUCE_USER=<sauce_user_name>```
 
 ```export SAUCE_ACCESS_KEY=<sauce_access_key>```
 
-##Run:
+## Run:
 ```mvn exec:java```
+
+## Notes:
+Requires Java8
